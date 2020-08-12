@@ -4,4 +4,4 @@ def word_count(sentence):
     words = len(sentence.split())
     print('# of words: ', words)
 
-word_count(a)
+word_count(a) 
