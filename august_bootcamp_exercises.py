@@ -5,10 +5,12 @@ t = time.localtime()
 current_time = time.strftime("%H:%M:%S", t)
 print(current_time)
 
+###########
 
 input('Press enter to start')
 start_time = time.time()
-print('Starting stopwatch at ', start_time)
+print('Starting stopwatch at ', time.strftime(
+    '%I:%M:%S %p')) # %I as 12hr clock, %p as AM/PM addition
 
 input('Press enter to stop')
 end_time = time.time()
