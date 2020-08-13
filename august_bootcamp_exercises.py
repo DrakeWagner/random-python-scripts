@@ -18,4 +18,11 @@ time_elapsed = round(end_time - start_time, 2)
 print('Time elapsed: ', time_elapsed, ' seconds.')
 
 ################
-
+# Check if input is text
+while True:
+    q3 = input('Pease input a word: ')
+    if q3.isalpha():
+        print('Thank you!')
+        break
+    else:
+        print('Please try again...')
