@@ -26,3 +26,16 @@ while True:
         break
     else:
         print('Please try again...')
+
+
+##########
+# Asks for list and prints it when user is done
+a = []
+print('Enter inputs for the list, or enter "end" to finish.')
+while True:
+    list_entry = input('[+] ')
+    if list_entry != 'end':
+        a.append(list_entry)
+    elif list_entry == 'end':
+        print(a)
+        break
