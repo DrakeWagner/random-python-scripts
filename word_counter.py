@@ -21,10 +21,10 @@ word_count(a_without_punct)
 
 def check_for_word():
     word_search = input('Enter a word you would like to check for: ')
-    if word_search in a:
-        times = a.count(word_search)
+    if word_search in a_without_punct:
+        times = a_without_punct.count(word_search)
         print('This word occurs ', times, ' time(s).', sep='')
-    elif word_search not in a:
+    elif word_search not in a_without_punct:
         print('This word is not in the list')
 
 check_for_word()
