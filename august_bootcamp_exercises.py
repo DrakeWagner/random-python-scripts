@@ -31,7 +31,7 @@ while True:
 ##########
 # Asks for list and prints it when user is done
 a = []
-print('Enter inputs for the list, or enter "end" to finish.')
+print('Enter inputs for the list, or type \"end\" to finish.')
 while True:
     list_entry = input('[+] ')
     if list_entry != 'end':
