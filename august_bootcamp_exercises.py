@@ -25,7 +25,7 @@ while True:
         print('Thank you!')
         break
     else:
-        print('That isn't a word! Please try again...')
+        print('That isn\'t a word! Please try again...')
 
 
 ##########
