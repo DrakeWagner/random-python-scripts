@@ -12,4 +12,12 @@ def caesar(text, rotation):
 
     if char.isupper():
         result += chr((ord(char) + rotation-65) % 26 + 65)
+    else:
+        result += chr((ord(char) + rotation-97) % 26 + 97)
     return result
+
+
+
+
+test1='DRAKE WAGNER IN THE HOUSE'
+print(caesar(test1, 4))
