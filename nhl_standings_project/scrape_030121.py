@@ -36,7 +36,7 @@ print(today)
 
 output = csv.writer(open('{}_NHL_Standings.csv'.format(today), 'w')) # create output file
 output.writerow(['Team Name', 'Record', 'Pts', 'Pts/game'])
-d = {}
+
 tbli = 0
 while tbli < 4: # 4 divisions
     table = soup.findAll('table')[tbli] # select first table (Central Division)
@@ -48,14 +48,13 @@ while tbli < 4: # 4 divisions
         if col:
             team_name = col[0].text.strip()
             team_rec = col[5].text.strip()
-            d.update({team_name:team_rec}) # add into dictionary pairs
 
             rec_split = team_rec.split('-') # calculate points
             rec_wins = int(rec_split[0])
             rec_loss = int(rec_split[1])
             rec_otloss = int(rec_split[2])
             # get_points(rec_wins, rec_loss, rec_otloss)
-            total_points = rec_wins + rec_otloss*2
+            total_points = rec_wins*2 + rec_otloss
 
             total_games_played = rec_wins + rec_loss + rec_otloss # calculate points/game
             ppg = str(round(total_points/total_games_played, 2))
