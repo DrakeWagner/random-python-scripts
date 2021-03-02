@@ -29,7 +29,7 @@ for i in links:
 
 # datetime
 today = datetime.datetime.now()
-today = today.strftime('%Y-%m-%d')
+today = today.strftime('%m-%d-%y')
 datetime.datetime.now().date().isoformat()
 print(today)
 
