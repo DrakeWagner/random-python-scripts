@@ -1,7 +1,7 @@
 import requests
 import csv
 from bs4 import BeautifulSoup
-import pandas as pd
+# import pandas as pd
 import datetime
 
 URL = 'https://www.oddsshark.com/nhl/standings'
