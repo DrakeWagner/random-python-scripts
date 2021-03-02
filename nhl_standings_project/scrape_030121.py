@@ -1,4 +1,3 @@
-import os
 import requests
 import csv
 from bs4 import BeautifulSoup
@@ -34,7 +33,6 @@ today = datetime.datetime.now()
 today = today.strftime('%Y-%m-%d')
 datetime.datetime.now().date().isoformat()
 print(today)
-
 
 output = csv.writer(open('{}_NHL_Standings.csv'.format(today), 'w')) # create output file
 output.writerow(['Team Name', 'Record', 'Pts', 'Pts/game'])
