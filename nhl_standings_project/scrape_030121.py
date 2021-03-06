@@ -41,7 +41,7 @@ while tbli < 4: # 4 divisions
     table = soup.findAll('table')[tbli] # select first table (Central Division)
     tbli+=1
     print('')
-    output.writerow(' ')
+    output.writerow(' ') # add space between divisions
     for i in table.select('tr'): # iterate through table
         col = i.select('td') 
         if col:
@@ -59,7 +59,7 @@ while tbli < 4: # 4 divisions
             ppg = str(round(total_points/total_games_played, 2))
 
             # output data
-            output.writerow([team_name,team_rec, total_points, ppg]) # add to output csv
+            output.writerow([team_name, team_rec, total_points, ppg]) # add to output csv
             print('{}:  {}'.format(team_name, team_rec))
 
             
