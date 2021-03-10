@@ -21,5 +21,6 @@ output.writerow(['Team', 'Rank', 'Change'])
 # print(table[1])
 
 # a = soup.find_all('div', attrs={'class':'content'})
-a = soup.find_all('td')
-print(a)
+row = soup.find_all('tr')
+for i in row.find('td'):
+    print(row.get_text())

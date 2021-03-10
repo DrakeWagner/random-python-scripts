@@ -22,9 +22,9 @@ output = csv.writer(open('MLB_Standings_{}.csv'.format(today), 'w'))
 output.writerow(['Team Name', 'Record', 'PCT'])
 
 # table = soup.find_all("div", {"class":"stat-cell"})
-table = soup.findAll('tr', attrs={"class" : "Table__Scroller"})
-print(table)
+# table = soup.findAll('tr', attrs={"class" : "table"})
+# print(table)
 
 
-# soup.find_all('tr', attrs = {'class': 'oddrow player-10-33039'})
+print(soup.find_all('td', attrs = {'class': 'stat-cell'}))
 
