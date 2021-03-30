@@ -43,12 +43,26 @@ header = soup.find('tr', attrs={'class':'colhead'})
 for i in header.find_all('td'):
     cols.append(i.get_text())
 
-
+my_dict = dict()
 # iterate through and collect stats
-def stats_list(col_num):
+def stats_list(col_num, variable_name):
+    mylist = []
     for i in stats[col_num::16]: #16 different columns
-        print(i)
-
-print(stats_list(1))
+        mylist.append(i)
+    my_dict[variable_name] = mylist
 
 # send lists to select column names
+# loop through colnames and add list to each?
+
+# cols: ['', 'PLAYER', 'YRS', 'G', 'AB', 'R', 'H', '2B', '3B', 'HR', 'RBI', 'BB', 'SO', 'SB', 'CS', 'BA']
+
+# for i in cols:
+#     my_dict[i] = stats_list(cols.index(i)) # each group of stats printed in order
+
+print(my_dict)
+
+# iterate through and add keys to values
+keys = ('', 'PLAYER', 'YRS', 'G', 'AB', 'R', 'H', '2B', '3B', 'HR', 'RBI', 'BB', 'SO', 'SB', 'CS', 'BA')
+for i in range(0, 16):
+    stats_list(i, keys[i])
+print(my_dict)
