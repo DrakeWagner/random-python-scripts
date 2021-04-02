@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import re
-import requests
 
 page = requests.get('https://www.espn.com/mlb/history/leaders/_/breakdown/season/year/2020')
 soup = BeautifulSoup(page.text, 'html.parser')
