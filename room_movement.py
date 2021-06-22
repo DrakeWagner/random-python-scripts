@@ -38,6 +38,16 @@ rooms = {'kitchen': {
     'name':'entrance room', 
     'description':'null',
         'north':'kitchen'}}
+
+# items when in inv and when in room
+room_item_desc = {'pot':{'main_desc':'A pot is sitting on the shelf.',
+                        'in_room':'A shiny pot sitting on the shelf.',
+                         'in_inv':'It still has some water in it.'},
+                  'pan':{'main_desc':'a pan is on the stove.',
+                         'in_room':'A large pan sitting on the stove.',
+                         'in_inv':'There is a slice of bacon sitting in it. Yum!'}}
+# inv_item_desc = {'pot':'It still has some water in it',
+#                  'pan':'There is a slice of bacon sitting in it. Yum!'}
     
 dirs = {'n':NORTH, 'N':NORTH, 'north':NORTH, 'North':NORTH,
         'e':EAST, 'E':EAST, 'east':EAST, 'East':EAST,
@@ -62,7 +72,7 @@ def move(direction):
         elif direction not in current_room:
             print('cannot go {}'.format(direction))
         else:
-            print('error cur room')
+            print('error')
     elif direction not in dirs:
         print('%s is not a valid direction.' % direction)
     else:
@@ -71,7 +81,9 @@ def move(direction):
 def inspect(item):
     global current_room
     if item in current_room['items']:
-        print('item found')
+        print(room_item_desc[item]['in_room'])
+    elif item in inventory:
+        print(room_item_desc[item]['in_inv'])
     else:
         print('not found')
 
@@ -90,8 +102,9 @@ def my_inventory():
     if len(inventory) > 0:
         print('||| Inventory |||')
         for item in inventory:
-            print('||  ', item, '  ||', sep='')
-        print('__________________')
+            # keep syntax at end of line, regardless of length of item word?
+            print('||| ', item, ' ', sep='')
+        print('')
     elif len(inventory) == 0:
         print('Inventory empty.')
 
@@ -108,32 +121,46 @@ def west():
     move('west')
 
 def help():
-    print('valid commands:\n-\smove [direction]\n-\slook\n')
+    print('valid commands:\n- move [direction]\n- look\n')
 
 def search():
-    print(current_room['description'])
-    # remove item descriptions in room once item is tak
+    # Room and item descriptions
+    print(current_room['description'], end=' ')
+    # remove item descriptions in room once item is taken
+    # list of each item description, only print description of items present in current_room['items']?
+    for item in room_item_desc:
+        if item in current_room['items']:
+            print(room_item_desc[item]['main_desc'], sep=' ', end=' ')
 
 def exit():
     pass
 
 # command prompt
 while True:
-    command = input('What will you do? ').lower()
+    command = input('\nWhat will you do? ').lower()
     command_list = command.split()
-    if 'move' in command:
+    if any(x in ['move','go'] for x in command_list):
         if any(item in dirs for item in command_list):
             move(command_list[1])
         elif not any(item in dirs for item in command_list):
             print('Invalid command. Try \"move [direction]\"')
-    elif command in ['look', 'inspect', 'investigate', 'examine', 'check']:
-        if command == 'look':
-            print('look where? ', end='')
-        elif command != 'look':
-            print(command, 'what? ', end='')
-        inspected_item = input('')
+    elif any(x in command_list for x in ['look', 'inspect', 'investigate', 'examine', 'check']):
+        # if command == 'look':
+        #     print('look where? ', end='')
+        # elif command != 'look':
+        #     print(command, 'what? ', end='')
+        # inspected_item = input('')
         # if inspected item in list of possible items in current room
-        inspect(inspected_item)
+        possible_inspect_item_room = list(set(current_room['items']).intersection(command_list))
+        possible_inspect_item_inv = list(set(inventory).intersection(command_list))
+        if len(possible_inspect_item_room) > 0:
+            inspect(possible_inspect_item_room[0])
+        elif len(possible_inspect_item_inv) > 0:
+            inspect(possible_inspect_item_inv[0])
+        else:
+            print('error: inspect')
+            # Rewrite to say list item to inspect?
+            # input to add item to command?
     elif 'inventory' in command_list:
         my_inventory()
     elif command in ['help']:
