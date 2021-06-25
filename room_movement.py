@@ -1,5 +1,14 @@
 # emulating room transitiong in text-based adventure games
 
+'''
+To do...
+locked doors
+    - edit room dict? include locked
+need to add search(room), redo dicts to allow
+    - (esp. needed for movement descriptions)
+
+'''
+
 import os
 import sys
 # import terms
@@ -21,6 +30,7 @@ DOWN=5
 
 rooms = {'kitchen': {
     'name':'kitchen', 
+    'lock':False,
     'description':'You stand in the kitchen. It\'s a kitchen.',
     'items':['pan','pot'],
         'north':'living room', 
@@ -28,15 +38,21 @@ rooms = {'kitchen': {
         'south':'entrance room'},
         'living room': {
     'name':'living room',
+    'lock':False,
     'description':'null',
+    'items':'',
         'south': 'kitchen'},
         'bathroom': {
     'name':'bathroom', 
+    'lock':True,
     'description':'null',
+    'items':'',
         'east': 'kitchen'},
         'entrance room': {
     'name':'entrance room', 
+    'lock':False,
     'description':'null',
+    'items':'',
         'north':'kitchen'}}
 
 # items when in inv and when in room
@@ -63,12 +79,16 @@ inventory = []
 
 def move(direction):
     global current_room
-    print(current_room['name'])
     global dirs
-    if direction in dirs:
-        if direction in current_room:
+    if direction in dirs:   
+        if direction in current_room and current_room['lock'] is not True: # successful move
+            potential_new_room = rooms[current_room[direction]]['name']
+            print('You move ', direction, ' into the ', rooms[current_room[direction]]['name'], sep='') 
             current_room = rooms[current_room[direction]]
-            print('You move ', direction, ' into the ', current_room['name'], sep='')
+            search_current_room() # this part is really dumb but I'm waking up in a few hours so whatever 
+        elif direction in current_room and current_room['lock'] is True: # Door is locked
+            potential_new_room = rooms[current_room[direction]]['name']
+            print('The door into ', potential_new_room, ' is locked!', sep='')
         elif direction not in current_room:
             print('cannot go {}'.format(direction))
         else:
@@ -123,14 +143,19 @@ def west():
 def help():
     print('valid commands:\n- move [direction]\n- look\n')
 
-def search():
+def search_current_room():
+    global current_room
     # Room and item descriptions
     print(current_room['description'], end=' ')
     # remove item descriptions in room once item is taken
     # list of each item description, only print description of items present in current_room['items']?
+
+    # go through item descriptions. If it is in the current room's items, print description
     for item in room_item_desc:
         if item in current_room['items']:
             print(room_item_desc[item]['main_desc'], sep=' ', end=' ')
+        else:
+            pass
 
 def exit():
     pass
@@ -170,7 +195,7 @@ while True:
     elif command == 'inventory':
         print(inventory)
     elif command == 'search':
-        search()
+        search_current_room()
     elif 'take' in command_list:
         '''
         possible items = any items in the command that are also in current room
