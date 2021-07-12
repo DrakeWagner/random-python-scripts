@@ -6,7 +6,9 @@ locked doors
     - edit room dict? include locked
 need to add search(room), redo dicts to allow
     - (esp. needed for movement descriptions)
-
+item aliases (take "key")
+hide items (move cabinet, open drawer, etc.) to get key
+Keep direction summaries with room summaries (ex: to the north is the bat room)
 '''
 
 import os
@@ -40,7 +42,7 @@ rooms = {'kitchen': {
     'name':'living room',
     'lock':False,
     'description':'null',
-    'items':'',
+    'items':['bat_key'],
         'south': 'kitchen'},
         'bathroom': {
     'name':'bathroom', 
@@ -61,14 +63,17 @@ room_item_desc = {'pot':{'main_desc':'A pot is sitting on the shelf.',
                          'in_inv':'It still has some water in it.'},
                   'pan':{'main_desc':'a pan is on the stove.',
                          'in_room':'A large pan sitting on the stove.',
-                         'in_inv':'There is a slice of bacon sitting in it. Yum!'}}
-# inv_item_desc = {'pot':'It still has some water in it',
-#                  'pan':'There is a slice of bacon sitting in it. Yum!'}
+                         'in_inv':'There is a slice of bacon sitting in it. Yum!'},
+                  'bat_key':{'main_desc':'Something shiny is beside the window...',
+                         'in_room':'something shiny is beside the window...',
+                         'in_inv':'The key to the bathroom'}
+            }
+
     
 dirs = {'n':NORTH, 'N':NORTH, 'north':NORTH, 'North':NORTH,
-        'e':EAST, 'E':EAST, 'east':EAST, 'East':EAST,
+        'e':EAST, 'E':EAST, 'east':EAST, 'East':EAST, 'Right':EAST, 'right':EAST,
         's':SOUTH, 'S':SOUTH, 'south':SOUTH, 'South':SOUTH,
-        'w':WEST, 'W':WEST, 'west':WEST, 'West':WEST, 'weast':WEST,
+        'w':WEST, 'W':WEST, 'west':WEST, 'West':WEST, 'weast':WEST, 'Left':WEST, 'left':WEST,
         'up':UP, 'Up':UP, 'u':UP, 
         'down':DOWN, 'Down':DOWN, 'd':DOWN}
 
@@ -76,23 +81,29 @@ dirs = {'n':NORTH, 'N':NORTH, 'north':NORTH, 'North':NORTH,
 current_room = rooms['kitchen']
 inventory = []
 
+new = current_room['north']
 
 def move(direction):
     global current_room
     global dirs
     if direction in dirs:   
-        if direction in current_room and current_room['lock'] is not True: # successful move
-            potential_new_room = rooms[current_room[direction]]['name']
+        # potential room not locked either
+        # >>> rooms[current_room['north']]['lock']
+        if direction in current_room and rooms[current_room[direction]]['lock'] is not True: # SUCCESSFUL MOVE
+            potential_new_room_name = rooms[current_room[direction]]['name'] # here incase dir isn't part of room dirs
             print('You move ', direction, ' into the ', rooms[current_room[direction]]['name'], sep='') 
             current_room = rooms[current_room[direction]]
             search_current_room() # this part is really dumb but I'm waking up in a few hours so whatever 
-        elif direction in current_room and current_room['lock'] is True: # Door is locked
-            potential_new_room = rooms[current_room[direction]]['name']
-            print('The door into ', potential_new_room, ' is locked!', sep='')
+        elif direction in current_room and rooms[current_room[direction]]['lock'] is True: # Door is locked
+            potential_new_room_name = rooms[current_room[direction]]['name'] # here incase dir isn't part of room dirs
+            print('The door into ', potential_new_room_name, ' is locked!', sep='')
+            if 'bat_key' in inventory:
+                print('You use the bathroom key to unlock the door...')
+                rooms['bathroom']['lock'] = False
         elif direction not in current_room:
-            print('cannot go {}'.format(direction))
+            print('Cannot go {}!'.format(direction))
         else:
-            print('error')
+            print('dirs error')
     elif direction not in dirs:
         print('%s is not a valid direction.' % direction)
     else:
@@ -196,7 +207,7 @@ while True:
         print(inventory)
     elif command == 'search':
         search_current_room()
-    elif 'take' in command_list:
+    elif any(x in ['take','grab'] for x in command_list):
         '''
         possible items = any items in the command that are also in current room
         if any items in current room are also in command:
