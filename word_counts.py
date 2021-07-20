@@ -9,6 +9,8 @@ isbnsearch.org
 format ISBNs ex: isbn13 to isbn10, remove spaces/dashes
 
 # function to test and make sure each ISBN works correctly
+
+combine test into main function... have redo isbn if incorrect
 '''
 
 
@@ -25,24 +27,39 @@ discworlds_read = ['0062225677', '0062225685', '0552131059', '0552131067', '0062
 sk_read = ['1501182099', '0345806794', '0385199570', '1982110589', '0345806786', 
            '1501143689', '0307743667', '1789096499', '1501143859', '1501144529', 
            '1501144200', '1789091551']
-sanderson_read = ['0765326353', '0765365286', '0765360039', '1250166543']
+sanderson_read = ['d0765326353', '0765365286', '0765360039', '1250166543']
 book_names = []
 book_lens = []
+valid_isbn_list = []
 
 # add and check if word count is zero, too
 def CheckISBN(isbn_list):
     for i in isbn_list:
-        global base_url
-        linky = base_url.format(i)
-        page = requests.get(linky)
-        src = page.content
-        soup = BeautifulSoup(src, 'html.parser')
-        text = soup.find_all(text=True)
-        if 'The ISBN given does not appear to be valid' in text:
-            print('invalid isbn:', i)
-        else:
-            print('valid isbn: ', i)
-    pass
+        while True:
+            global base_url
+            linky = base_url.format(i)
+            page = requests.get(linky)
+            src = page.content
+            soup = BeautifulSoup(src, 'html.parser')
+            text = soup.find_all(text=True)
+            if 'The ISBN given does not appear to be valid' in str(text):
+                print('invalid isbn:', i)
+                while True:
+                    new_isbn = input('enter replacement isbn: ')
+                    try:
+                        len(new_isbn) == 10
+                        new_isbn = int(new_isbn)
+                        break
+                    except:
+                        print('Not a valid ISBN format. Try again (no dashes, 10 digits).')
+                print('ISBN corrected to: {}'.format(new_isbn))
+                valid_isbn_list.append(new_isbn)
+                break
+            else:
+                print('valid isbn: ', i)
+                valid_isbn_list.append(i)
+                break
+
 
 def Information(c): # c must stay as list, even if just one
     for isbn_num in c:
@@ -51,7 +68,6 @@ def Information(c): # c must stay as list, even if just one
         page = requests.get(linky)
     #   print(page.status_code) # Check for 200 response
         src = page.content
-
 
         soup = BeautifulSoup(src, 'html.parser')
     #    print(soup.title)
@@ -107,8 +123,9 @@ def Information(c): # c must stay as list, even if just one
 # print(book_lens)
 # print('Total words: {:,}'.format(sum(book_lens)))
 
-Information(sanderson_read)
-
+Information(discworlds_read)
+# CheckISBN(sanderson_read)
+# print(valid_isbn_list)
 
 '''
 SK length: 1,826,635
