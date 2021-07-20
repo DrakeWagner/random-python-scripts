@@ -1,3 +1,3 @@
 # random-python-scripts
 
-A collection of random scripts and exercises written in python.
+A collection of random scripts written in python.
