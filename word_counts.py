@@ -17,7 +17,6 @@ combine test into main function... have redo isbn if incorrect
 import requests
 from bs4 import BeautifulSoup
 
-# no dashes rn!@~!# maybe make way to remove dashes?
 base_url = 'https://www.readinglength.com/book/isbn-{}'
 ISBN = [base_url.format('0062225677'), base_url.format('0062225685')]
 ISBN_TEST = [base_url.format('055131075')] 
@@ -61,18 +60,32 @@ def CheckISBN(isbn_list):
                 break
 
 
-def Information(c): # c must stay as list, even if just one
+
+
+
+def Information(c): # c must stay as list, even if just one element
     for isbn_num in c:
         global base_url
         linky = base_url.format(isbn_num)
         page = requests.get(linky)
     #   print(page.status_code) # Check for 200 response
         src = page.content
-
         soup = BeautifulSoup(src, 'html.parser')
-    #    print(soup.title)
         text = soup.find_all(text=True)
         set([t.parent.name for t in text])
+
+        while 'The ISBN given does not appear to be valid' in str(text):
+                print('invalid isbn:', isbn_num)
+                new_isbn = input('enter replacement isbn: ')
+                if len(new_isbn) == 10:
+                    isbn_num = new_isbn
+                    print('ISBN corrected to: {}... Checking isbn...'.format(new_isbn))
+                    soup = BeautifulSoup((requests.get(base_url.format(isbn_num))).content, 'html.parser')
+                    text = soup.find_all(text=True)
+                    set([t.parent.name for t in text])
+                else:
+                        print('Not a valid ISBN format. Try again (no dashes, 10 digits).')
+                valid_isbn_list.append(new_isbn)
 
         blacklist = [
             'b',
@@ -123,7 +136,7 @@ def Information(c): # c must stay as list, even if just one
 # print(book_lens)
 # print('Total words: {:,}'.format(sum(book_lens)))
 
-Information(discworlds_read)
+Information(sanderson_read)
 # CheckISBN(sanderson_read)
 # print(valid_isbn_list)
 
