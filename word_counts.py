@@ -10,7 +10,6 @@ format ISBNs ex: isbn13 to isbn10, remove spaces/dashes
 
 # function to test and make sure each ISBN works correctly
 
-combine test into main function... have redo isbn if incorrect
 '''
 
 
