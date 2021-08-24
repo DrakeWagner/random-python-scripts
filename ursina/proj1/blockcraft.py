@@ -25,7 +25,6 @@ class Voxel(Button):
                 scale=1
                 )
 
-
     def input(self,key):
         if self.hovered:
             if key == 'left mouse down':
