@@ -18,15 +18,13 @@ book_names = []
 book_lens = []
 valid_isbn_list = []
 
-headers = {'user-agent': 'UVA Class Example (dbw2tn@virginia.edu) (Language=Python 3.8.2; Platform=Linux(MX-19.4 / 31))'} 
-
-
+# add and check if word count is zero, too
 def CheckISBN(isbn_list):
     for i in isbn_list:
         while True:
             global base_url
             linky = base_url.format(i)
-            page = requests.get(linky, headers = headers)
+            page = requests.get(linky)
             src = page.content
             soup = BeautifulSoup(src, 'html.parser')
             text = soup.find_all(text=True)
