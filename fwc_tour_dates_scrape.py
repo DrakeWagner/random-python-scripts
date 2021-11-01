@@ -10,13 +10,8 @@ from bs4 import BeautifulSoup
 sys.tracebacklimit = 0
 
 url = 'https://fatwreck.com/pages/tour-dates'
-# id_names = ['bad_cop_bad_cop', 'bombpops_the', 'clowns', 'copyrights', 'days-n-daze',
-#          'direct_hit', 'face_to_face', 'frenzal_rhomb', 'get_dead', 'good_riddance']
-id_names = ['clowns']
-
 headers = {'user-agent' : 'dbw2tn@virginia.edu (Chrome/95.0.4638.69)'}
 
-full = {}
 display_names = []
 query_names = []
 tour_dates = []
@@ -48,8 +43,21 @@ def get_dates(bands_list):
         # full.update({str(band):by_band}) # need band string name from last loop
 
 
-get_dates(id_names)
 # print(display_names)
 # print(tour_dates)
-print(query_names)
+# print(query_names)
 # print(full)
+
+full = dict(zip(display_names, tour_dates))
+
+loop = 1
+while loop == 1:
+    state = input('State to check dates in: ').upper()
+    print('Bands coming to {}:'.format(state))
+    for band in display_names:
+        for date in full.get(band):
+            if str(state) in str(date):
+                print(band, '...... ', date)
+    cont = input('Check another? ')
+    if cont not in ['yes', 'y', 'Yes']:
+        loop = 0
