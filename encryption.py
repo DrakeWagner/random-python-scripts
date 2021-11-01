@@ -3,8 +3,6 @@ import string
 letters=string.ascii_lowercase
 
 
-# Special cryptography code for Drake and Arushi
-
 def encrypt(sentence,rotation):
     # sentence=input('Enter your message: ').lower()
     new_sentence=''
