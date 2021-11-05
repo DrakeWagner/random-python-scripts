@@ -18,6 +18,7 @@ tour_dates = []
 def get_dates(bands_list):
     global url, headers
     r = requests.get(url, headers = headers)
+    print(r)
     src = r.content
     text = BeautifulSoup(src, 'html.parser')
     # tour_content = text.find('div', class_='fat-tour-dates-content')
@@ -46,7 +47,7 @@ def get_dates(bands_list):
 # print(display_names)
 # print(tour_dates)
 # print(query_names)
-# print(full)
+get_dates()
 
 full = dict(zip(display_names, tour_dates))
 
