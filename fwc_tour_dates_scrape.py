@@ -6,6 +6,7 @@
 import sys
 import os
 import requests
+import pandas as pd
 from bs4 import BeautifulSoup
 sys.tracebacklimit = 0
 
@@ -15,7 +16,7 @@ headers = {'user-agent' : 'dbw2tn@virginia.edu (Chrome/95.0.4638.69)'}
 display_names = []
 query_names = []
 tour_dates = []
-def get_dates(bands_list):
+def get_dates():
     global url, headers
     r = requests.get(url, headers = headers)
     print(r)
@@ -43,7 +44,6 @@ def get_dates(bands_list):
         tour_dates.append(by_band)
         # full.update({str(band):by_band}) # need band string name from last loop
 
-
 # print(display_names)
 # print(tour_dates)
 # print(query_names)
@@ -53,12 +53,16 @@ full = dict(zip(display_names, tour_dates))
 
 loop = 1
 while loop == 1:
-    state = input('State to check dates in: ').upper()
-    print('Bands coming to {}:'.format(state))
+    state = input('State to check dates in (abbreviation): ').upper()
+    print(f'Bands coming to {state}:')
     for band in display_names:
         for date in full.get(band):
             if str(state) in str(date):
                 print(band, '...... ', date)
     cont = input('Check another? ')
-    if cont not in ['yes', 'y', 'Yes']:
+    if cont.lower() not in ['yes', 'y']:
         loop = 0
+
+
+if __name__ == "__main__":
+    get_dates()
