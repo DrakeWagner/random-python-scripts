@@ -172,70 +172,70 @@ def exit():
     pass
 
 # command prompt
-while True:
-    command = input('\nWhat will you do? ').lower()
-    command_list = command.split()
-    if any(x in ['move','go'] for x in command_list):
-        if any(item in dirs for item in command_list):
-            move(command_list[1])
-        elif not any(item in dirs for item in command_list):
-            print('Invalid command. Try \"move [direction]\"')
-    elif any(x in command_list for x in ['look', 'inspect', 'investigate', 'examine', 'check']):
-        # if command == 'look':
-        #     print('look where? ', end='')
-        # elif command != 'look':
-        #     print(command, 'what? ', end='')
-        # inspected_item = input('')
-        # if inspected item in list of possible items in current room
-        possible_inspect_item_room = list(set(current_room['items']).intersection(command_list))
-        possible_inspect_item_inv = list(set(inventory).intersection(command_list))
-        if len(possible_inspect_item_room) > 0:
-            inspect(possible_inspect_item_room[0])
-        elif len(possible_inspect_item_inv) > 0:
-            inspect(possible_inspect_item_inv[0])
-        else:
-            print('error: inspect')
-            # Rewrite to say list item to inspect?
-            # input to add item to command?
-    elif 'inventory' in command_list:
-        my_inventory()
-    elif command in ['help']:
-        help()
-    elif command in ['exit', 'quit', 'end']:
-        exit()
-    elif command == 'inventory':
-        print(inventory)
-    elif command == 'search':
-        search_current_room()
-    elif any(x in ['take','grab'] for x in command_list):
-        '''
-        possible items = any items in the command that are also in current room
-        if any items in current room are also in command:
-            take, and take only first if more than one in command
-            (add to inv remove from room)
-        if item in inventory:
-        '''
-        possible_items = list(set(current_room['items']).intersection(command_list))
-        if any(x in current_room['items'] for x in command_list):
-            if len(possible_items) > 1:
-                print('taking first mentioned item applicable...')
-            take(possible_items[0])
-        # else if command is in possible item list AND already in inventory
-        elif any(x in inventory for x in command_list):
-            print('You already have that item!')
-        else:
-            print('I don\'t know what that is.')
-    else:
-        print('invalid command')
-
-
-
 # while True:
-#     print('current location: {}'.format(current_room['name']))
-#     command = input('Which direction? ')
-#     if command in dirs:
-#         if command in current_room:
-#             current_room = rooms[current_room[command]] # switch current room
+#     command = input('\nWhat will you do? ').lower()
+#     command_list = command.split()
+#     if any(x in ['move','go'] for x in command_list):
+#         if any(item in dirs for item in command_list):
+#             move(command_list[1])
+#         elif not any(item in dirs for item in command_list):
+#             print('Invalid command. Try \"move [direction]\"')
+#     elif any(x in command_list for x in ['look', 'inspect', 'investigate', 'examine', 'check']):
+#         # if command == 'look':
+#         #     print('look where? ', end='')
+#         # elif command != 'look':
+#         #     print(command, 'what? ', end='')
+#         # inspected_item = input('')
+#         # if inspected item in list of possible items in current room
+#         possible_inspect_item_room = list(set(current_room['items']).intersection(command_list))
+#         possible_inspect_item_inv = list(set(inventory).intersection(command_list))
+#         if len(possible_inspect_item_room) > 0:
+#             inspect(possible_inspect_item_room[0])
+#         elif len(possible_inspect_item_inv) > 0:
+#             inspect(possible_inspect_item_inv[0])
 #         else:
-#             print('cannot move that direction')
+#             print('use "inspect [item]"')
+#             # Rewrite to say list item to inspect?
+#             # input to add item to command?
+#     elif 'inventory' in command_list:
+#         my_inventory()
+#     elif command in ['help']:
+#         help()
+#     elif command in ['exit', 'quit', 'end']:
+#         exit()
+#     elif command == 'inventory':
+#         print(inventory)
+#     elif command == 'search':
+#         search_current_room()
+#     elif any(x in ['take','grab'] for x in command_list):
+#         '''
+#         possible items = any items in the command that are also in current room
+#         if any items in current room are also in command:
+#             take, and take only first if more than one in command
+#             (add to inv remove from room)
+#         if item in inventory:
+#         '''
+#         possible_items = list(set(current_room['items']).intersection(command_list))
+#         if any(x in current_room['items'] for x in command_list):
+#             if len(possible_items) > 1:
+#                 print('taking first mentioned item applicable...')
+#             take(possible_items[0])
+#         # else if command is in possible item list AND already in inventory
+#         elif any(x in inventory for x in command_list):
+#             print('You already have that item!')
+#         else:
+#             print('I don\'t know what that is.')
+#     else:
+#         print('invalid command')
+
+
+
+while True:
+    print('current location: {}'.format(current_room['name']))
+    command = input('Which direction? ')
+    if command in dirs:
+        if command in current_room:
+            current_room = rooms[current_room[command]] # switch current room
+        else:
+            print('cannot move that direction')
 
