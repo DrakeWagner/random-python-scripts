@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env python3
 
 import os
 from os.path import exists
@@ -6,7 +6,7 @@ import urllib.request
 import requests
 from bs4 import BeautifulSoup
 
-# your working directory
+# assign info
 wd = 'c:\\Users\\dwagn\\Desktop'
 os.chdir(wd)
 filename = 'pokelinks.txt'
