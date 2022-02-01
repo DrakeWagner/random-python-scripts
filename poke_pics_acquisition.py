@@ -10,14 +10,21 @@ from bs4 import BeautifulSoup
 wd = 'c:\\Users\\dwagn\\Desktop'
 os.chdir(wd)
 filename = 'pokelinks.txt'
+pic_folder = 'poke_pics'
 
-# create file links
+# create text file/folder if not already exist
 if exists(wd + '\\' + filename) == True:
     print(f'{filename} already exists')
 else:
-    print(f'{filename} created at {wd}')
     with open(filename, 'w') as f:
         f.close()
+    print(f'{filename} created at {wd}')
+        
+if exists(wd + '\\' + pic_folder):
+    print(f'{pic_folder} already exists')
+else:
+    os.makedirs(pic_folder)
+    print(f'{pic_folder} created at {wd}')
 
 # list of pokemon names via website
 url = 'https://pokemondb.net/pokedex/all'
